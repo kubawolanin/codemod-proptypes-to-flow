@@ -24,6 +24,17 @@ function addFlowComment(j, ast, options) {
   getBodyNode().comments = comments;
 }
 
+function addExactProps(source) {
+  if (typeof source === 'string') {
+    return source
+      .replace('React.Component', 'React.Component<Props>')
+      .replace(
+        /(type Props = \{)(\s+[\s\S]*\n)(\};)/,
+        'export type Props = $ReadOnly<{|$2|}>;'
+      );
+  }
+}
+
 export default function transformer(file, api, rawOptions) {
   const j = api.jscodeshift;
   const root = j(file.source);
@@ -57,7 +68,9 @@ export default function transformer(file, api, rawOptions) {
 
   if (classModifications || functionalModifications) {
     addFlowComment(j, root, options);
-    return root.toSource({ quote: 'single', trailingComma: true });
+    return addExactProps(
+      root.toSource({ quote: 'single', trailingComma: true })
+    );
   } else {
     return file.source;
   }

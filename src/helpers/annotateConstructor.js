@@ -14,17 +14,9 @@ export default function annotateConstructor(j, body, name = 'Props') {
     if (b.kind === 'constructor') {
       constructorIndex = i + 1;
 
-      // first parameter is always props regardless of name
-      if (b.value.params && b.value.params.length) {
-        b.value.params[0].typeAnnotation = typeAnnotation;
-      }
       return true;
     }
   });
 
-  body.splice(
-    constructorIndex,
-    0,
-    j.classProperty(j.identifier('props'), null, typeAnnotation)
-  );
+  body.splice(constructorIndex, 0);
 }

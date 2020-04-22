@@ -42,13 +42,13 @@ export default function propTypeToFlowType(j, key, value) {
   const TRANSFORM_MAP = {
     any: j.anyTypeAnnotation(),
     bool: j.booleanTypeAnnotation(),
-    func: j.genericTypeAnnotation(j.identifier('Function'), null),
+    func: j.genericTypeAnnotation(j.identifier('() => void'), null),
     number: j.numberTypeAnnotation(),
-    object: j.genericTypeAnnotation(j.identifier('Object'), null),
+    object: j.genericTypeAnnotation(j.identifier('$Object'), null),
     string: j.stringTypeAnnotation(),
     str: j.stringTypeAnnotation(),
     array: j.genericTypeAnnotation(
-      j.identifier('Array'),
+      j.identifier('$ReadOnlyArray'),
       j.typeParameterInstantiation([j.anyTypeAnnotation()])
     ),
     element: j.genericTypeAnnotation(
@@ -66,7 +66,7 @@ export default function propTypeToFlowType(j, key, value) {
         null
       ),
       j.genericTypeAnnotation(
-        j.identifier('Array'),
+        j.identifier('$ReadOnlyArray'),
         j.typeParameterInstantiation([j.anyTypeAnnotation()])
       ),
     ]),
@@ -95,7 +95,7 @@ export default function propTypeToFlowType(j, key, value) {
       returnValue = j.genericTypeAnnotation(node.arguments[0], null);
     } else if (name === 'arrayOf') {
       returnValue = j.genericTypeAnnotation(
-        j.identifier('Array'),
+        j.identifier('$ReadOnlyArray'),
         j.typeParameterInstantiation([
           propTypeToFlowType(
             j,
