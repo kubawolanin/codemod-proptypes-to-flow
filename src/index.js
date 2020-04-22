@@ -11,10 +11,10 @@ function addFlowComment(j, ast, options) {
 
   if (!containsFlowComment) {
     switch (options.flowComment) {
-      default:
       case 'line':
         comments.unshift(j.commentLine(' @flow'));
         break;
+      default:
       case 'block':
         comments.unshift(j.commentBlock(' @flow '));
         break;
@@ -28,6 +28,7 @@ function addExactProps(source) {
   if (typeof source === 'string') {
     return source
       .replace('React.Component', 'React.Component<Props>')
+      .replace('React.PureComponent', 'React.PureComponent<Props>')
       .replace(
         /(type Props = \{)(\s+[\s\S]*\n)(\};)/,
         'export type Props = $ReadOnly<{|$2|}>;'
