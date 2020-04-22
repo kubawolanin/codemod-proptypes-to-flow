@@ -11,11 +11,11 @@ function addFlowComment(j, ast, options) {
 
   if (!containsFlowComment) {
     switch (options.flowComment) {
+      default:
       case 'line':
         comments.unshift(j.commentLine(' @flow'));
         break;
       case 'block':
-      default:
         comments.unshift(j.commentBlock(' @flow '));
         break;
     }
